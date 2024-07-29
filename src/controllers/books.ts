@@ -83,3 +83,20 @@ export const getBooksByAuthorId = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+export const searchBooksByTitle = async (req: Request, res: Response) => {
+  try {
+    const { title } = req.query;
+    if (typeof title !== 'string' || title.trim() === '') {
+      return res.status(400).json({ message: 'Invalid or empty title parameter' });
+    }
+
+    const books = await knex('books')
+      .where('title', 'like', `%${title.trim()}%`);
+
+    res.json(books);
+  } catch (error: any) {
+    console.error('Error searching books:', error);
+    res.status(500).json({ message: 'Error searching books', error: error.message });
+  }
+};

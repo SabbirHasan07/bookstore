@@ -1,4 +1,4 @@
-import express from 'express';
+import express = require('express');
 import bodyParser from 'body-parser';
 import authorsRouter from './routes/authors';
 import booksRouter from './routes/books';

@@ -8,6 +8,7 @@ import {
   updateAuthor,
   deleteAuthor
 } from '../controllers/authors';
+import { knex } from '../db';
 
 const router = Router();
 
@@ -30,5 +31,16 @@ router.put(
   updateAuthor
 );
 router.delete('/:id', deleteAuthor);
+// In the authors router file
+router.get('/:id/books', async (req, res) => {
+  try {
+    const authorId = parseInt(req.params.id, 10);
+    const books = await knex('books').where({ author_id: authorId });
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving books' });
+  }
+});
+
 
 export default router;

@@ -44,4 +44,16 @@ router.put(
 router.delete('/:id', deleteBook);
 router.get('/author/:id', getBooksByAuthorId);
 
+// In the books router file
+router.get('/author/:id', async (req, res) => {
+  try {
+    const authorId = parseInt(req.params.id, 10);
+    const books = await knex('books').where({ author_id: authorId });
+    res.json(books);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving books' });
+  }
+});
+
+
 export default router;

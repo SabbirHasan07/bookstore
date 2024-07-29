@@ -8,7 +8,7 @@ export const getAuthors = async (req: Request, res: Response) => {
     const authors: Author[] = await knex('authors').select('*');
     res.json(authors);
   } catch (error) {
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal Server Error sabbir Vai' });
   }
 };
 

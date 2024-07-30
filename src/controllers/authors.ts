@@ -73,3 +73,20 @@ export const deleteAuthor = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Internal Server Error' });
   }
 };
+
+export const searchAuthorsByName = async (req: Request, res: Response) => {
+  try {
+    const { name } = req.query;
+    if (typeof name !== 'string' || name.trim() === '') {
+      return res.status(400).json({ message: 'Invalid or empty name parameter' });
+    }
+
+    const authors = await knex('authors')
+      .where('name', 'like', `%${name.trim()}%`);
+      console.log(authors);
+    res.json(authors);
+  } catch (error: any) {
+    console.error('Error searching authors:', error);
+    res.status(500).json({ message: 'Error searching authors', error: error.message });
+  }
+};
